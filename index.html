@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>唐诗连连看 · 一笔成诗</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <h1 class="title">唐诗连连看</h1>
+    <p class="subtitle">一笔连线，千古成诗</p>
+    <span class="author-sign">作者：马伊辰</span>
+  </header>
+
+  <section class="hud">
+    <div class="hud-item">
+      <span class="hud-label">关卡</span>
+      <span class="hud-value"><b id="hud-level">1</b><i>/ 50</i></span>
+    </div>
+    <div class="hud-item score-item">
+      <span class="hud-label">得分</span>
+      <span class="hud-value"><b id="hud-score">0</b><i>分</i></span>
+      <span id="score-pop" class="score-pop">+2</span>
+    </div>
+    <div class="hud-item">
+      <span class="hud-label">用时</span>
+      <span class="hud-value"><b id="hud-time">00:00</b></span>
+    </div>
+  </section>
+
+  <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+
+  <section class="clue">
+    <p class="clue-title">请连出《<span id="poem-title"></span>》中的诗句
+      <span id="tier-badge" class="tier-badge"></span>
+    </p>
+    <p class="clue-author" id="poem-author"></p>
+    <p class="chances" id="chances">剩余连线机会：2 / 2</p>
+    <div id="slots" class="slots"></div>
+  </section>
+
+  <div id="stage" class="stage">
+    <div id="board" class="board"></div>
+    <svg id="line-layer" class="line-layer" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+
+  <div class="nav-actions">
+    <button id="btn-prev-q" class="btn btn-nav" type="button" title="返回上一题" disabled>‹ 上一题</button>
+    <span id="nav-status" class="nav-status">已答对 0 / 50</span>
+    <button id="btn-next-q" class="btn btn-nav" type="button" title="实在不会可以先跳过，之后用上一题返回补答" disabled>下一题 ›</button>
+  </div>
+
+  <div class="actions">
+    <button id="btn-clear" class="btn btn-ghost" type="button">重新连这一笔</button>
+    <button id="btn-restart" class="btn btn-ghost" type="button">重新开始</button>
+  </div>
+
+  <footer class="tips">
+    玩法：按住诗句的第一个字，沿<strong>上下相邻</strong>的字拖动，<strong>一笔</strong>连完整句后松手；答对一题得 <strong>2</strong> 分，共 50 题。每题只有 <strong>2</strong> 次连线机会，两次都错则本题锁定、不得分；实在不会可点<strong>下一题</strong>跳过（不扣分、不消耗机会），之后用<strong>上一题</strong>返回补答。
+  </footer>
+</div>
+
+<!-- 答对后的诗句卡片 -->
+<div id="poem-card" class="overlay hidden">
+  <div class="poem-panel">
+    <p class="poem-correct">回答正确 <span>+2</span></p>
+    <h2 class="poem-name" id="card-title"></h2>
+    <p class="poem-author" id="card-author"></p>
+    <div class="poem-body" id="card-body"></div>
+    <p class="poem-skip">点击任意处继续</p>
+  </div>
+</div>
+
+<!-- 开始页 -->
+<div id="start-screen" class="overlay">
+  <div class="screen-panel">
+    <h2 class="screen-title">唐诗连连看</h2>
+    <p class="screen-sub">从九宫格的乱字中，找出藏着的唐诗名句</p>
+    <ul class="rules">
+      <li>题库 <strong>100</strong> 首，每局随机抽取 <strong>50</strong> 首，题题不重样</li>
+      <li>题目均为千古传诵的<strong>经典名篇</strong>，由浅入深，老少皆宜</li>
+      <li>按住诗句首字，沿相邻字<strong>一笔连成</strong>整句，每题 <strong>+2 分</strong></li>
+      <li>每题只有 <strong>2</strong> 次连线机会，两次都错则本题<strong>锁定不得分</strong>，答案不可更改</li>
+      <li>实在不会可点<strong>下一题</strong>跳过（不扣分、不消耗机会），用<strong>上一题</strong>随时返回补答</li>
+      <li>全部题目处理完（答对或用尽机会）后显示<strong>完成时间</strong>与总分</li>
+    </ul>
+    <button id="btn-start" class="btn btn-primary" type="button">开始游戏</button>
+  </div>
+</div>
+
+<!-- 结算页 -->
+<div id="end-screen" class="overlay hidden">
+  <div class="screen-panel">
+    <h2 class="screen-title">诗成！</h2>
+    <div class="result">
+      <div class="result-row">
+        <span>完成时间</span>
+        <b id="end-time">00:00</b>
+      </div>
+      <div class="result-row">
+        <span>最终得分</span>
+        <b id="end-score">0</b>
+      </div>
+    </div>
+    <p class="end-remark" id="end-remark"></p>
+    <button id="btn-again" class="btn btn-primary" type="button">再玩一次</button>
+  </div>
+</div>
+
+<script src="poems.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
